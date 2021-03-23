@@ -1,6 +1,6 @@
-package study;
+package March;
 import java.util.Scanner;
-public class Test1 {
+public class fifteenth {
 public static void main(String[] args){
 Scanner sca=new Scanner(System.in);
 int a=sca.nextInt();
