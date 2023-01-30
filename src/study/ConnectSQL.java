@@ -2,15 +2,16 @@ package study;
 
 import java.sql.*;
 
-public class ConnectSQL {
-    static final String JDBC_DRIVER = "com.mysql.cj.jdbc.Driver";
-    static final String DB_URL = "jdbc:mysql://localhost:3306/student?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC";
-    static final String USER = "root";
-    static final String PASS = "";
+public abstract class ConnectSQL implements mySQL{
+    //在子类中必须给这些变量赋值
+    static String JDBC_DRIVER;
+    static String DB_URL;
+    static String USER;
+    static String PASS;
     private static Connection conn=null;
     private static Statement stmt=null;
     //初始化数据库
-    static {
+    public ConnectSQL() {
         try {
             // 注册 JDBC 驱动
             Class.forName(JDBC_DRIVER);
@@ -36,7 +37,28 @@ public class ConnectSQL {
             e.printStackTrace();
         }
     }
-    public static void main(String[] args){
+
+    @Override
+    public String getId() {
+        return null;
+    }
+
+    @Override
+    public String getValue() {
+        return null;
+    }
+
+    @Override
+    public void detectValue() {
+
+    }
+
+    @Override
+    public void insertValue() {
+
+    }
+
+    public void main(){
         try {
             // 执行查询
             String sql;
