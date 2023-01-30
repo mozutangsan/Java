@@ -2,7 +2,7 @@ package study;
 
 import java.sql.*;
 
-public class Test {
+public class connectSQL {
     static final String JDBC_DRIVER = "com.mysql.cj.jdbc.Driver";
     static final String DB_URL = "jdbc:mysql://localhost:3306/student?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC";
     static final String USER = "root";
@@ -31,7 +31,6 @@ public class Test {
                 int id  = rs.getInt("id");
                 String name = rs.getString("name");
                 String url = rs.getString("url");
-
                 // 输出数据
                 System.out.print("ID: " + id);
                 System.out.print(", 站点名称: " + name);
