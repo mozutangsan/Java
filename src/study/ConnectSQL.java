@@ -8,6 +8,7 @@ public abstract class ConnectSQL implements mySQL{
     static String DB_URL;
     static String USER;
     static String PASS;
+    static String TABLE;
     private static Connection conn=null;
     private static Statement stmt=null;
     //初始化数据库
@@ -62,7 +63,7 @@ public abstract class ConnectSQL implements mySQL{
         try {
             // 执行查询
             String sql;
-            sql = "SELECT id, name, url FROM websites;";
+            sql = "SELECT id, name, url FROM "+TABLE;
             ResultSet rs = stmt.executeQuery(sql);
 
             // 展开结果集数据库
