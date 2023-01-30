@@ -2,25 +2,43 @@ package study;
 
 import java.sql.*;
 
-public class connectSQL {
+public class ConnectSQL {
     static final String JDBC_DRIVER = "com.mysql.cj.jdbc.Driver";
     static final String DB_URL = "jdbc:mysql://localhost:3306/student?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC";
     static final String USER = "root";
     static final String PASS = "";
-    public static void main(String[] args){
-        Connection conn = null;
-        Statement stmt = null;
-        try{
+    private static Connection conn=null;
+    private static Statement stmt=null;
+    //初始化数据库
+    static {
+        try {
             // 注册 JDBC 驱动
             Class.forName(JDBC_DRIVER);
-
             // 打开链接
             System.out.println("连接数据库...");
-            conn = DriverManager.getConnection(DB_URL,USER,PASS);
-
-            // 执行查询
+            conn = DriverManager.getConnection(DB_URL, USER, PASS);
             System.out.println(" 实例化Statement对象...");
             stmt = conn.createStatement();
+        }catch (SQLException es){
+            //处理SQL错误
+            es.printStackTrace();
+            //关闭资源
+            try{
+                if(stmt!=null) stmt.close();
+            }catch(SQLException se2){
+            }
+            try{
+                if(conn!=null) conn.close();
+            }catch(SQLException se){
+                se.printStackTrace();
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+    public static void main(String[] args){
+        try {
+            // 执行查询
             String sql;
             sql = "SELECT id, name, url FROM websites;";
             ResultSet rs = stmt.executeQuery(sql);
@@ -41,13 +59,12 @@ public class connectSQL {
             rs.close();
             stmt.close();
             conn.close();
-        }catch(SQLException se){
-            // 处理 JDBC 错误
-            se.printStackTrace();
-        }catch(Exception e){
-            // 处理 Class.forName 错误
+        }catch (SQLException es){
+            es.printStackTrace();
+        }catch (Exception e){
             e.printStackTrace();
-        }finally{
+        }
+        finally{
             // 关闭资源
             try{
                 if(stmt!=null) stmt.close();
