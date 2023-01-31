@@ -1,5 +1,7 @@
 package study;
 
+import java.sql.SQLException;
+
 public class Test extends ConnectSQL{
     static{
         JDBC_DRIVER="com.mysql.cj.jdbc.Driver";
@@ -7,9 +9,11 @@ public class Test extends ConnectSQL{
         USER="root";
         PASS="";
         TABLE="websites";
+        //使用构造方法
+        new Test();
     }
-    public static void main(String[] args){
+    public static void main(String[] args) throws SQLException {
         Test a=new Test();
-        a.main();
+        System.out.println(a.getType("name","淘宝","id"));
     }
 }

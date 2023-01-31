@@ -38,14 +38,16 @@ public abstract class ConnectSQL implements mySQL{
             e.printStackTrace();
         }
     }
-
     @Override
-    public String getId() {
-        return null;
-    }
-
-    @Override
-    public String getValue() {
+    public String getType(String column_name1,String column_type,String column_name2) throws SQLException {
+        String sql;
+        sql = "SELECT "+column_name1+","+column_name2+" FROM "+TABLE;
+        ResultSet rs = stmt.executeQuery(sql);
+        while (rs.next()){
+            if(rs.getString(column_name1).equals(column_type)){
+                return rs.getString(column_name2);
+            }
+        }
         return null;
     }
 
@@ -59,7 +61,7 @@ public abstract class ConnectSQL implements mySQL{
 
     }
 
-    public void main(){
+    public void ma(){
         try {
             // 执行查询
             String sql;
