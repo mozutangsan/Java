@@ -52,13 +52,19 @@ public abstract class ConnectSQL implements mySQL{
     }
 
     @Override
-    public void detectValue() {
-
+    public void updateValue(String column_name1, int column_type1, String column_name2, String column_type2) throws SQLException {
+        String sql;
+        sql="UPDATE "+TABLE+" SET "+column_name2+"='"+column_type2+"' where "+column_name1+"="+column_type1;
+        stmt.execute(sql);
+        System.out.println(column_name2+"已被更改为"+column_type2);
     }
 
     @Override
-    public void insertValue() {
-
+    public void insertValue(String column_name,int column_type) throws SQLException {
+        String sql;
+        sql="INSERT INTO "+TABLE+"("+column_name+")"+"\n"+"VALUE"+"\n"+"("+column_type+")";
+        stmt.execute(sql);
+        System.out.println(column_name+"已被创建并被赋值为"+column_type);
     }
 
     public void ma(){

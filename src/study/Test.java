@@ -12,8 +12,4 @@ public class Test extends ConnectSQL{
         //使用构造方法
         new Test();
     }
-    public static void main(String[] args) throws SQLException {
-        Test a=new Test();
-        System.out.println(a.getType("name","淘宝","id"));
-    }
 }
