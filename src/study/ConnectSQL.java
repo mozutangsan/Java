@@ -2,6 +2,11 @@ package study;
 
 import java.sql.*;
 
+/**
+ * 该类用于实现数据库操作。
+ * @author 模组唐三
+ * @version jdk1.8.0
+ */
 public abstract class ConnectSQL implements mySQL{
     //在子类中必须给这些变量赋值
     static String JDBC_DRIVER;
@@ -38,6 +43,7 @@ public abstract class ConnectSQL implements mySQL{
             e.printStackTrace();
         }
     }
+
     @Override
     public String getType(String column_name1,String column_type,String column_name2) throws SQLException {
         String sql;
@@ -58,55 +64,11 @@ public abstract class ConnectSQL implements mySQL{
         stmt.execute(sql);
         System.out.println(column_name2+"已被更改为"+column_type2);
     }
-
     @Override
     public void insertValue(String column_name,int column_type) throws SQLException {
         String sql;
         sql="INSERT INTO "+TABLE+"("+column_name+")"+"\n"+"VALUE"+"\n"+"("+column_type+")";
         stmt.execute(sql);
         System.out.println(column_name+"已被创建并被赋值为"+column_type);
-    }
-
-    public void ma(){
-        try {
-            // 执行查询
-            String sql;
-            sql = "SELECT id, name, url FROM "+TABLE;
-            ResultSet rs = stmt.executeQuery(sql);
-
-            // 展开结果集数据库
-            while(rs.next()){
-                // 通过字段检索
-                int id  = rs.getInt("id");
-                String name = rs.getString("name");
-                String url = rs.getString("url");
-                // 输出数据
-                System.out.print("ID: " + id);
-                System.out.print(", 站点名称: " + name);
-                System.out.print(", 站点 URL: " + url);
-                System.out.print("\n");
-            }
-            // 完成后关闭
-            rs.close();
-            stmt.close();
-            conn.close();
-        }catch (SQLException es){
-            es.printStackTrace();
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-        finally{
-            // 关闭资源
-            try{
-                if(stmt!=null) stmt.close();
-            }catch(SQLException se2){
-            }// 什么都不做
-            try{
-                if(conn!=null) conn.close();
-            }catch(SQLException se){
-                se.printStackTrace();
-            }
-        }
-        System.out.println("Goodbye!");
     }
 }
