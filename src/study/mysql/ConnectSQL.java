@@ -1,4 +1,6 @@
-package study;
+package study.mysql;
+
+import study.mysql.mySQL;
 
 import java.sql.*;
 
@@ -7,7 +9,7 @@ import java.sql.*;
  * @author 模组唐三
  * @version jdk1.8.0
  */
-public abstract class ConnectSQL implements mySQL{
+public abstract class ConnectSQL implements mySQL {
     //在子类中必须给这些变量赋值
     static String JDBC_DRIVER;
     static String DB_URL;

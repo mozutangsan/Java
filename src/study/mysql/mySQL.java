@@ -1,4 +1,4 @@
-package study;
+package study.mysql;
 
 import java.sql.SQLException;
 
