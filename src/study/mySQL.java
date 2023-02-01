@@ -7,6 +7,15 @@ import java.sql.SQLException;
  */
 public interface mySQL {
     /**
+     * 初始化数据库链接并导入数据
+     */
+    public void start();
+
+    /**
+     * 关闭数据库并清楚数据
+     */
+    public void stop();
+    /**
      * 为数据库表格插入指定名称和内容的数据
      * @param column_name
      * @param column_type

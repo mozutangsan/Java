@@ -9,11 +9,11 @@ public class Test extends ConnectSQL{
         USER="root";
         PASS="";
         TABLE="websites";
-        //使用构造方法
-        new Test();
     }
     public static void main(String[] args) throws SQLException {
         Test a=new Test();
-        System.out.println(a.getType("id","5","url"));
+        a.start();
+        System.out.println(a.getType("name","Mcbbs","url"));
+        a.stop();
     }
 }

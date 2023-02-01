@@ -16,15 +16,16 @@ public abstract class ConnectSQL implements mySQL{
     static String TABLE;
     private static Connection conn=null;
     private static Statement stmt=null;
-    //初始化数据库
-    public ConnectSQL() {
+
+    @Override
+    public void start() {
         try {
             // 注册 JDBC 驱动
             Class.forName(JDBC_DRIVER);
             // 打开链接
             System.out.println("连接数据库...");
             conn = DriverManager.getConnection(DB_URL, USER, PASS);
-            System.out.println(" 实例化Statement对象...");
+            System.out.println("实例化Statement对象...");
             stmt = conn.createStatement();
         }catch (SQLException es){
             //处理SQL错误
@@ -42,6 +43,23 @@ public abstract class ConnectSQL implements mySQL{
         }catch (Exception e){
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public void stop() {
+        JDBC_DRIVER=DB_URL=USER=PASS=TABLE=null;
+        System.out.println("数据已清除");
+        //关闭资源
+        try{
+            if(stmt!=null) stmt.close();
+        }catch(SQLException se2){
+        }
+        try{
+            if(conn!=null) conn.close();
+        }catch(SQLException se){
+            se.printStackTrace();
+        }
+        System.out.println("数据库资源已关闭");
     }
 
     @Override
