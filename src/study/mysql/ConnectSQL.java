@@ -32,16 +32,6 @@ public abstract class ConnectSQL implements mySQL {
         }catch (SQLException es){
             //处理SQL错误
             es.printStackTrace();
-            //关闭资源
-            try{
-                if(stmt!=null) stmt.close();
-            }catch(SQLException se2){
-            }
-            try{
-                if(conn!=null) conn.close();
-            }catch(SQLException se){
-                se.printStackTrace();
-            }
         }catch (Exception e){
             e.printStackTrace();
         }
