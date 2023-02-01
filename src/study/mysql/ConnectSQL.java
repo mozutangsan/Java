@@ -1,7 +1,5 @@
 package study.mysql;
 
-import study.mysql.mySQL;
-
 import java.sql.*;
 import java.util.logging.Logger;
 
@@ -19,7 +17,7 @@ public abstract class ConnectSQL implements mySQL {
     static String TABLE;
     private static Connection conn=null;
     private static Statement stmt=null;
-    private static Logger logger=Logger.getLogger(String.valueOf(ConnectSQL.class));
+    private static final Logger logger=Logger.getLogger(String.valueOf(ConnectSQL.class));
 
     @Override
     public void start() {
@@ -84,13 +82,15 @@ public abstract class ConnectSQL implements mySQL {
         String sql;
         sql="UPDATE "+TABLE+" SET "+column_name2+"='"+column_type2+"' where "+column_name1+"="+column_type1;
         stmt.execute(sql);
-        System.out.println(column_name2+"已被更改为"+column_type2);
+        String msg=column_name2+"已被更改为"+column_type2;
+        logger.info(msg);
     }
     @Override
     public void insertValue(String column_name,int column_type) throws SQLException {
         String sql;
         sql="INSERT INTO "+TABLE+"("+column_name+")"+"\n"+"VALUE"+"\n"+"("+column_type+")";
         stmt.execute(sql);
-        System.out.println(column_name+"已被创建并被赋值为"+column_type);
+        String msg=column_name+"已被创建并被赋值为"+column_type;
+        logger.info(msg);
     }
 }
