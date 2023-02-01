@@ -3,6 +3,7 @@ package study.mysql;
 import study.mysql.mySQL;
 
 import java.sql.*;
+import java.util.logging.Logger;
 
 /**
  * 该类用于实现数据库操作。
@@ -18,6 +19,7 @@ public abstract class ConnectSQL implements mySQL {
     static String TABLE;
     private static Connection conn=null;
     private static Statement stmt=null;
+    private static Logger logger=Logger.getLogger(String.valueOf(ConnectSQL.class));
 
     @Override
     public void start() {
@@ -25,9 +27,9 @@ public abstract class ConnectSQL implements mySQL {
             // 注册 JDBC 驱动
             Class.forName(JDBC_DRIVER);
             // 打开链接
-            System.out.println("连接数据库...");
+            logger.info("连接数据库...");
             conn = DriverManager.getConnection(DB_URL, USER, PASS);
-            System.out.println("实例化Statement对象...");
+            logger.info("实例化Statement对象...");
             stmt = conn.createStatement();
         }catch (SQLException es){
             //处理SQL错误
@@ -50,7 +52,7 @@ public abstract class ConnectSQL implements mySQL {
     @Override
     public void stop() {
         JDBC_DRIVER=DB_URL=USER=PASS=TABLE=null;
-        System.out.println("数据已清除");
+        logger.info("数据已清除");
         //关闭资源
         try{
             if(stmt!=null) stmt.close();
@@ -61,7 +63,7 @@ public abstract class ConnectSQL implements mySQL {
         }catch(SQLException se){
             se.printStackTrace();
         }
-        System.out.println("数据库资源已关闭");
+        logger.info("数据库资源已关闭");
     }
 
     @Override
