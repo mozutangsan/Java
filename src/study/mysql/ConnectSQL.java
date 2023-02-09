@@ -75,12 +75,22 @@ public abstract class ConnectSQL implements mySQL {
         String msg=column_name2+"已被更改为"+column_type2;
         logger.info(msg);
     }
+
     @Override
     public void insertValue(String column_name,int column_type) throws SQLException {
         String sql;
         sql="INSERT INTO "+TABLE+"("+column_name+")"+"\n"+"VALUE"+"\n"+"("+column_type+")";
         stmt.execute(sql);
         String msg=column_name+"已被创建并被赋值为"+column_type;
+        logger.info(msg);
+    }
+
+    @Override
+    public void delete(String column_name,int column_type) throws SQLException {
+        String sql;
+        sql="DELETE FROM "+TABLE+" where "+column_name+"="+column_type;
+        stmt.execute(sql);
+        String msg=column_name+"为"+column_type+"已被删除";
         logger.info(msg);
     }
 }

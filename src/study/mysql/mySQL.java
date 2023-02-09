@@ -40,4 +40,12 @@ public interface mySQL {
      * @throws SQLException SQL错误子类中统一处理
      */
     void updateValue(String column_name1,int column_type1,String column_name2,String column_type2) throws SQLException;
+
+    /**
+     *
+     * @param column_name 要删除的数据名称
+     * @param column_type 要删除的数据内容
+     * @throws SQLException SQL错误子类中统一处理
+     */
+    void delete(String column_name,int column_type) throws SQLException;
 }
