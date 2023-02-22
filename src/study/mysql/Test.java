@@ -13,7 +13,7 @@ public class Test extends ConnectSQL {
     public static void main(String[] args) throws SQLException {
         Test a=new Test();
         a.start();
-        System.out.println(a.getType("name","Mcmod","url"));
+        a.updateValue("id",3,"alexa","142");
         a.stop();
     }
 }
