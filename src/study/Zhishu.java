@@ -26,5 +26,6 @@ public class Zhishu {
         for(int c:a){
             System.out.println(c);
         }
+        System.out.println(BCrypt.hashpw("114614",BCrypt.gensalt()));
     }
 }
