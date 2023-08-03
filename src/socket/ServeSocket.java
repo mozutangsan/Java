@@ -10,12 +10,18 @@ public class ServeSocket implements IServerSocket{
     private static boolean severState=false;
     private static Thread[] threads = {null};
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         ServeSocket s=new ServeSocket();
         s.start(8080);
         Scanner sca=new Scanner(System.in);
-        if(sca.next().equalsIgnoreCase("close")){
-            s.stop();
+        while (true) {
+            if (sca.next().equalsIgnoreCase("close")) {
+                s.stop();
+                break;
+            }
+            if(sca.next().equalsIgnoreCase("test")) {
+                new Socket("127.0.0.1", 8080);
+            }
         }
     }
 
@@ -29,18 +35,15 @@ public class ServeSocket implements IServerSocket{
                     server = new ServerSocket(port);
                     while (true) {
                         Socket socket = server.accept();
-                        if (!severState) {
+                        if (!Thread.currentThread().isInterrupted()) {
                             server.close();
                             threads[0] = null;
+                            break;
                         }
                         connect(socket);
                     }
                 } catch (IOException e) {
-                    try {
-                        server.close();
-                    } catch (IOException ex) {
-                        throw new RuntimeException(ex);
-                    }
+                    throw new RuntimeException(e);
                 }
             });
             threads[0] = st;
@@ -53,6 +56,7 @@ public class ServeSocket implements IServerSocket{
         severState = false;
         try {
             new Socket("127.0.0.1",8080).close();
+            threads[0].interrupt();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
