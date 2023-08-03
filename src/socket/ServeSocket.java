@@ -29,9 +29,10 @@ public class ServeSocket implements IServerSocket{
                     server = new ServerSocket(port);
                     while (true) {
                         Socket socket = server.accept();
-                        if (!severState) {
+                        if (Thread.currentThread().isInterrupted()) {
                             server.close();
                             threads[0] = null;
+                            break;
                         }
                         connect(socket);
                     }
@@ -51,15 +52,17 @@ public class ServeSocket implements IServerSocket{
     @Override
     public void stop(){
         severState = false;
-        try {
-            new Socket("127.0.0.1",8080).close();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        //打断所有线程
         for (Thread th:threads){
             if(th!=null){
                 th.interrupt();
             }
+        }
+        //发送请求解除线程阻塞
+        try {
+            new Socket("127.0.0.1",8080).close();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
     }
 
