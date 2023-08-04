@@ -94,6 +94,7 @@ public class ServeSocket implements IServerSocket{
             PrintWriter pw =new PrintWriter(socket.getOutputStream());
             a=a+1;
             pw.println("hello");
+            pw.flush();
             String reply=is.readLine();
             a=a+1;
             if (!reply.equalsIgnoreCase("hello")){

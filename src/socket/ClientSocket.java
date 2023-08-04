@@ -15,13 +15,12 @@ public class ClientSocket {
             //使用PrintWriter和BufferedReader进行读写数据
             PrintWriter pw = new PrintWriter(socket.getOutputStream());
             BufferedReader is = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-            //发送数据
-            msg=sca.nextLine();
-            pw.println(msg);
-            pw.flush();
             //接收数据
             String line = is.readLine();
             System.out.println("received from server:" + line);
+            //发送数据
+            pw.println(line);
+            pw.flush();
             //关闭资源
             pw.close();
             is.close();
