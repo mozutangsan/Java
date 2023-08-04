@@ -10,6 +10,8 @@ public class ServeSocket implements IServerSocket{
     private static boolean severState=false;
     private static Thread[] threads =new Thread[100];
     private static Socket[] sockets =new Socket[100];
+    private static BufferedReader[] bufferedReaders=new BufferedReader[100];
+    private static PrintWriter[] printWriters=new PrintWriter[100];
     public static void main(String[] args) {
         ServeSocket s=new ServeSocket();
         s.start(8080);
@@ -76,6 +78,7 @@ public class ServeSocket implements IServerSocket{
             }
         }
     }
+    @Override
     public int prepareConnect(Socket socket) {
         int a=-3;
         Thread thread=new Thread(() -> {
@@ -92,22 +95,30 @@ public class ServeSocket implements IServerSocket{
         try {
             BufferedReader is= new BufferedReader(new InputStreamReader(socket.getInputStream()));
             PrintWriter pw =new PrintWriter(socket.getOutputStream());
-            a=a+1;
+            a++;
             pw.println("hello");
             pw.flush();
             String reply=is.readLine();
-            a=a+1;
+            a++;
             if (!reply.equalsIgnoreCase("hello")){
                 return a;
             }
-            a=a+1;
+            a++;
+            for (a=1;a<=100;a++){
+                if(threads[a]==null){
+                    printWriters[a]=pw;
+                    bufferedReaders[a]=is;
+                    sockets[a]=socket;
+                    return a;
+                }
+            }
         } catch (IOException e) {
             return a;
         }
         return a;
     }
     @Override
-    public void connect(Socket socket){
+    public void connect(Socket socket,int id){
         sockets[0]=socket;
         Thread th=new Thread(() -> {
             try {
