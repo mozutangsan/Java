@@ -38,7 +38,10 @@ public class ServeSocket implements IServerSocket{
                             break;
                         }
                         if (socket.isConnected()) {
-                            System.out.println(prepareConnect(socket));
+                            int id=prepareConnect(socket);
+                            if(id>0){
+                                connect(socket,id);
+                            }
                         }
                     }
                 } catch (IOException e) {
@@ -109,6 +112,7 @@ public class ServeSocket implements IServerSocket{
                     printWriters[a]=pw;
                     bufferedReaders[a]=is;
                     sockets[a]=socket;
+                    thread.interrupt();
                     return a;
                 }
             }
@@ -119,18 +123,20 @@ public class ServeSocket implements IServerSocket{
     }
     @Override
     public void connect(Socket socket,int id){
-        sockets[0]=socket;
         Thread th=new Thread(() -> {
             try {
                 System.out.println(socket.getLocalAddress().getHostAddress());
                 //接受请求后使用Socket进行通信，创建BufferedReader用于读取数据
-                BufferedReader is= new BufferedReader(new InputStreamReader(socket.getInputStream()));
-                //创建PrintWriter，用于发送数据
-                PrintWriter pw =new PrintWriter(new OutputStreamWriter(socket.getOutputStream()));
                 while (true) {
-                    String line = is.readLine();
-                    System.out.println("received frome client:" + line);
-                    pw.println("this data is from server");
+                    String lineCopy=null;
+                    String line = bufferedReaders[id].readLine();
+                    Thread.sleep(1000);
+                    if(!line.equals(lineCopy)) {
+                        System.out.println("received frome client:" + line);
+                        printWriters[id].println("this data is from server");
+                        printWriters[id].flush();
+                        lineCopy=line;
+                    }
                 }
             }catch (IOException e){
                 if(Thread.currentThread().isInterrupted()){
@@ -138,9 +144,11 @@ public class ServeSocket implements IServerSocket{
                 }else {
                     e.printStackTrace();
                 }
+            } catch (InterruptedException e) {
+                System.out.println("000");
             }
         });
+        threads[id]=th;
         th.start();
-        threads[1]=th;
     }
 }
