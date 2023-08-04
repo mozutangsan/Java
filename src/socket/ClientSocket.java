@@ -23,10 +23,8 @@ public class ClientSocket {
             pw.flush();
             //关闭资源
             msg=sca.nextLine();
-            while (!msg.equalsIgnoreCase("bye")){
-                pw.println(msg);
-                pw.flush();
-            }
+            pw.println(msg);
+            pw.flush();
             pw.close();
             is.close();
             socket.close();

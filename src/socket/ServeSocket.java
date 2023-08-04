@@ -126,17 +126,13 @@ public class ServeSocket implements IServerSocket{
         Thread th=new Thread(() -> {
             try {
                 System.out.println(socket.getLocalAddress().getHostAddress());
-                //接受请求后使用Socket进行通信，创建BufferedReader用于读取数据
                 while (true) {
-                    String lineCopy=null;
+                    //接受请求后使用Socket进行通信，创建BufferedReader用于读取数据
                     String line = bufferedReaders[id].readLine();
                     Thread.sleep(1000);
-                    if(!line.equals(lineCopy)) {
-                        System.out.println("received frome client:" + line);
-                        printWriters[id].println("this data is from server");
-                        printWriters[id].flush();
-                        lineCopy=line;
-                    }
+                    System.out.println("received frome client:" + line);
+                    printWriters[id].println("this data is from server");
+                    printWriters[id].flush();
                 }
             }catch (IOException e){
                 if(Thread.currentThread().isInterrupted()){
