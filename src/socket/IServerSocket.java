@@ -20,11 +20,4 @@ public interface IServerSocket {
      * @param socket 连接用套字节
      */
     void connect(Socket socket) throws IOException;
-
-    /**
-     * 检验一个socket是否正常链接
-     * @param s 要检验的socket
-     * @return 是否正常链接
-     */
-    boolean IsSocketConnected(Socket s);
 }

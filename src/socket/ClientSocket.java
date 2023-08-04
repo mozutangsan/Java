@@ -1,9 +1,6 @@
 package socket;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
+import java.io.*;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.Scanner;
@@ -18,8 +15,8 @@ public class ClientSocket {
             //使用PrintWriter和BufferedReader进行读写数据
             PrintWriter pw = new PrintWriter(socket.getOutputStream());
             BufferedReader is = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-            msg=sca.nextLine();
             //发送数据
+            msg=sca.nextLine();
             pw.println(msg);
             pw.flush();
             //接收数据
