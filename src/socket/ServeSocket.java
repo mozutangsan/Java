@@ -40,7 +40,7 @@ public class ServeSocket implements IServerSocket{
                         if (socket.isConnected()) {
                             int id=prepareConnect(socket);
                             if(id>0){
-                                connect(socket,id);
+                                connect(id);
                             }
                         }
                     }
@@ -108,7 +108,7 @@ public class ServeSocket implements IServerSocket{
             }
             a++;
             for (a=1;a<=100;a++){
-                //使用空位自动将输入输出流和socket存入数组
+                //使用id自动将输入输出流和socket存入数组
                 if(threads[a]==null){
                     printWriters[a]=pw;
                     bufferedReaders[a]=is;
@@ -123,10 +123,10 @@ public class ServeSocket implements IServerSocket{
         return a;
     }
     @Override
-    public void connect(Socket socket,int id){
+    public void connect(int id){
         Thread th=new Thread(() -> {
             try {
-                System.out.println(socket.getLocalAddress().getHostAddress());
+                System.out.println(sockets[id].getLocalAddress().getHostAddress());
                 while (true) {
                     String line = bufferedReaders[id].readLine();
                     //设置一秒延时，防止客户端发送过快影响服务器性能

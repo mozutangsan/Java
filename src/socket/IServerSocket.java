@@ -17,19 +17,18 @@ public interface IServerSocket {
 
     /**
      * 打开一个持久化线程用于连接
-     * @param socket 连接用套字节
+     * @param id 由prepareConnect()生成的id
      */
-    void connect(Socket socket,int id) throws IOException;
+    void connect(int id) throws IOException;
 
     /**
-     * 校验一个socket是否能使用，若能使用，返回一个空闲数组位。
-     * 可能返回非正数的情况如下：
-     * -3代表与客户端建立流超时；
+     * 校验一个socket是否能使用，若能使用，返回一个临时id，该id同时代表输入输出流和socket存入的数组位。
+     * 返回-3代表与客户端建立流超时；
      * -2代表客户端回应超时；
      * -1代表客户端回应内容错误；
-     * 0代表数组已无空闲位；
+     * 0代表数组已无空闲位。
      * @param socket 要检验的socket
-     * @return 一个可用的数组位
+     * @return 一个临时id
      */
     int prepareConnect(Socket socket);
 }
