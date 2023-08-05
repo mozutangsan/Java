@@ -108,6 +108,7 @@ public class ServeSocket implements IServerSocket{
             }
             a++;
             for (a=1;a<=100;a++){
+                //使用空位自动将输入输出流和socket存入数组
                 if(threads[a]==null){
                     printWriters[a]=pw;
                     bufferedReaders[a]=is;
@@ -127,12 +128,10 @@ public class ServeSocket implements IServerSocket{
             try {
                 System.out.println(socket.getLocalAddress().getHostAddress());
                 while (true) {
-                    //接受请求后使用Socket进行通信，创建BufferedReader用于读取数据
                     String line = bufferedReaders[id].readLine();
+                    //设置一秒延时，防止客户端发送过快影响服务器性能
                     Thread.sleep(1000);
                     System.out.println("received frome client:" + line);
-                    printWriters[id].println("this data is from server");
-                    printWriters[id].flush();
                 }
             }catch (IOException e){
                 if(Thread.currentThread().isInterrupted()){
@@ -144,6 +143,7 @@ public class ServeSocket implements IServerSocket{
                 System.out.println("000");
             }
         });
+        //将线程存入数组并启动
         threads[id]=th;
         th.start();
     }
