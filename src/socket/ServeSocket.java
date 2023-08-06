@@ -151,6 +151,9 @@ public class ServeSocket implements IServerSocket{
     @Override
     public void disconnect(int id,boolean m){
         try {
+            if(!sockets[id].isClosed())
+                sockets[id].close();
+            sockets[id]=null;
             printWriters[id].flush();
             printWriters[id].close();
             bufferedReaders[id].close();
