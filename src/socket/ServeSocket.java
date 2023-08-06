@@ -127,7 +127,7 @@ public class ServeSocket implements IServerSocket{
     public void connect(int id){
         Thread th=new Thread(() -> {
             try {
-                System.out.println(sockets[id].getLocalAddress().getHostAddress());
+                System.out.println(sockets[id].getLocalAddress().getHostAddress()+"加入链接");
                 while (true) {
                     String line = bufferedReaders[id].readLine();
                     //设置一秒延时，防止客户端发送过快影响服务器性能
@@ -136,7 +136,7 @@ public class ServeSocket implements IServerSocket{
                 }
             }catch (IOException e){
                 if (!Thread.currentThread().isInterrupted()) {
-                    System.out.println(id+"断开链接");
+                    System.out.println(sockets[id].getInetAddress().getHostAddress()+"断开链接");
                 }
                 disconnect(id,false);
                 threads[id]=null;
