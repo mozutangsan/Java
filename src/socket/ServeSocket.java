@@ -72,6 +72,7 @@ public class ServeSocket implements IServerSocket{
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+        //关闭所有socket，引起所有通讯线程进入异常处理并自动清理
         for (Socket socket:sockets){
             if(socket!=null){
                 try {
@@ -134,11 +135,11 @@ public class ServeSocket implements IServerSocket{
                     System.out.println("received frome client:" + line);
                 }
             }catch (IOException e){
-                if(Thread.currentThread().isInterrupted()){
-                    System.out.println("000");
-                }else {
-                    e.printStackTrace();
+                if (!Thread.currentThread().isInterrupted()) {
+                    System.out.println(id+"断开链接");
                 }
+                disconnect(id,false);
+                threads[id]=null;
             } catch (InterruptedException e) {
                 System.out.println("000");
             }
@@ -146,5 +147,22 @@ public class ServeSocket implements IServerSocket{
         //将线程存入数组并启动
         threads[id]=th;
         th.start();
+    }
+    @Override
+    public void disconnect(int id,boolean m){
+        try {
+            printWriters[id].flush();
+            printWriters[id].close();
+            bufferedReaders[id].close();
+            printWriters[id] =null;
+            bufferedReaders[id]=null;
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        if(m){
+            if(threads[id]!=null)
+                if (!threads[id].isInterrupted())
+                    threads[id].interrupt();
+        }
     }
 }

@@ -31,4 +31,11 @@ public interface IServerSocket {
      * @return 一个临时id
      */
     int prepareConnect(Socket socket);
+
+    /**
+     * 关闭一个指定连接
+     * @param id 要关闭连接的临时id
+     * @param m 是否检查并打断线程，如果为手动调用则必须为true
+     */
+    void disconnect(int id,boolean m);
 }
