@@ -132,7 +132,8 @@ public class ServeSocket implements IServerSocket{
                     String line = bufferedReaders[id].readLine();
                     //设置一秒延时，防止客户端发送过快影响服务器性能
                     Thread.sleep(1000);
-                    System.out.println("received frome client:" + line);
+                    if(line!=null)
+                        System.out.println(sockets[id].getLocalAddress().getHostAddress()+":" + line);
                 }
             }catch (IOException e){
                 if (!Thread.currentThread().isInterrupted()) {
@@ -141,7 +142,8 @@ public class ServeSocket implements IServerSocket{
                 disconnect(id,false);
                 threads[id]=null;
             } catch (InterruptedException e) {
-                System.out.println("000");
+                disconnect(id,false);
+                threads[id]=null;
             }
         });
         //将线程存入数组并启动
