@@ -37,6 +37,7 @@ public class ServeSocket implements IServerSocket{
                             threads[0] = null;
                             break;
                         }
+                        //打开链接
                         if (socket.isConnected()) {
                             int id=prepareConnect(socket);
                             if(id>0){
